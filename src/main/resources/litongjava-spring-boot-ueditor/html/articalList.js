@@ -80,6 +80,10 @@ layui.use(['table', 'layer', 'form', 'laypage'], function() {
     add: function() {
       layerOpenForm(layer, title + "添加页面", "articleForm.html");
     },
+    addNewTab: function() {
+      //window.location.href = formPageName;
+      window.open("articleForm.html", '_blank')
+    },
     batchdel: function() {
       //debugger;
       var checkStatus = table.checkStatus('data-table'),

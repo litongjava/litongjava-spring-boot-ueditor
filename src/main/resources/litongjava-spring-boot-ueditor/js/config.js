@@ -1,0 +1,1 @@
+var projectName = '/litongjava-spring-boot-ueditor';

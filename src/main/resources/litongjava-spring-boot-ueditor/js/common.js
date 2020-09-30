@@ -1,5 +1,3 @@
-var projectName = '/litongjava-spring-boot-ueditor';
-
 function layerOpenForm(layer, title, content) {
   var w = ($(window).width() * 0.7);
   var h = ($(window).height() - 50);
