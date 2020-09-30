@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>文章预览</title>
+<script src="../ueditor-1.4/ueditor.parse.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+<div id="content">
+
+</div>
+<script type="text/javascript">
+var id = request.getParamter("id");
+if (!id) {
+  var userAgreementId = request.getParamter("user_agreement_id");
+  if (userAgreementId) {
+    var url = projectName + "/userAgreement/listColumn?column=article_id&id=" + userAgreementId;
+    $.ajax(url).then(getContent).then(parseContent);
+  } else {
+    console.log("出现错误,2个id都获取不到,联系管理员解决");
+  }
+} else {
+  getContent(null, id).then(parseContent);
+}
+
+function getContent(resp, id) {
+  //console.log(resp);
+  if (resp) {
+    if (resp.code > -1) {
+      id = resp.data[0].articleId;
+    }
+  }
+
+  var url = projectName + "/article/listColumn?column=content&id=" + id;
+  return $.ajax(url);
+
+}
+
+function parseContent(resp) {
+  console.log(resp);
+  if (resp.code > -1) {
+    $("#content").html(resp.data[0].content);
+    uParse('content', { rootPaht: '../ueditor-1.4' })
+  }
+}
+</script>
+</body>

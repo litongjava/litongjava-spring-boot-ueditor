@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.5.5/css/layui.css" />
+</head>
+
+<body>
+<form class="layui-form" action="" id="form-data" lay-filter="data-form">
+  <input type="hidden" class="layui-input" name="id" />
+  <div class="layui-form-item">
+    <label for="" class="layui-form-label">标题</label>
+    <div class="layui-input-block">
+      <input type="text" class="layui-input" name="title" required lay-verify="required" placeholder="请输入标题" />
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <lable class="layui-form-label">类型</lable>
+    <div class="layui-input-block">
+      <input type="text" name="type" class="layui-input" placeholder="请输类型" autocomplet="off" required layui-verify='required' /></div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">内容</label>
+    <div class="layui-input-block">
+      <script id="container" name="content" type="text/plain"></script>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="front-submit" id="front-submit">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      <input type="button" class="layui-btn layui-btn-danger" value="关闭" onclick="layer_close()" />
+    </div>
+  </div>
+</form>
+
+</body>
+<!--编辑器默认配置文件-->
+<script src="../ueditor-1.4/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+<!--编辑器源码文件-->
+<script src="../ueditor-1.4/ueditor.all.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://www.layuicdn.com/layui-v2.5.5/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+var ue = UE.getEditor('container', {
+  initialFrameHeight: window.screen.availHeight - 400,
+  autoHeightEnabled: true, //是否自动长高
+});
+
+layui.use(['form'], function() {
+  form = layui.form, $ = layui.$;
+  form.render();
+  if (window.parent.formData) {
+    var formData = JSON.parse(JSON.stringify(window.parent.formData));
+    window.parent.formData = null;
+    //console.log(formData);
+    ue.ready(function () {
+      ue.setContent(formData.content);
+      console.log("ueditor初始化完成 ,可以设置数据");
+    });
+    form.val('data-form', formData);
+    
+  }
+  form.on('submit(front-submit)', function(data) {
+    var uri = projectName + '/article/saveOrUpdate';
+    $.ajax({
+      type: 'post',
+      url: uri,
+      data: data.field,
+      success: function(resp) {
+        if (resp.code > -1) {
+          layer.msg(resp.msg, { icon: 1, time: 1000 });
+          if (parent.layui.table) {
+            parent.layui.table.reload('data-table');
+          }
+          layer_close();
+        } else {
+          layer.msg(resp.msg, { icon: 0, time: 1000 });
+          console.log(resp.msg);
+          return false;
+        }
+      },
+      error: function(resp) {
+        //console.log(resp.responseText);
+        layer.alert(resp.responseText, { icon: 2 });
+      }
+    })
+    //防止表单刷新
+    return false;
+  });
+});
+
+function layer_close() {
+  var index = parent.layer.getFrameIndex(window.name);
+  parent.layer.close(index);
+}
+</script>
+
+</html>

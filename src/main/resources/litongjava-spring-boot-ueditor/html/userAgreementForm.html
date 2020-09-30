@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.5.5/css/layui.css" />
+</head>
+
+<body>
+<form class="layui-form" action="" id="form-data" lay-filter="data-form">
+  <input type="hidden" class="layui-input" name="id" />
+  <div class="layui-form-item">
+    <label for="" class="layui-form-label">名称</label>
+    <div class="layui-input-block">
+      <input type="text" class="layui-input" name="name" required lay-verify="required" placeholder="请输入名称" />
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <lable class="layui-form-label">文章id</lable>
+    <div class="layui-input-block">
+      <input type="text" name="articleId" class="layui-input" placeholder="请输入文章id" autocomplet="off" required layui-verify='required' /></div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="front-submit" id="front-submit">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      <input type="button" class="layui-btn layui-btn-danger" value="关闭" onclick="layer_close()" />
+    </div>
+  </div>
+</form>
+
+</body>
+<script src="https://www.layuicdn.com/layui-v2.5.5/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+layui.use(['form'], function() {
+  form = layui.form, $ = layui.$;
+  form.render();
+  if (window.parent.formData) {
+    var formData = JSON.parse(JSON.stringify(window.parent.formData));
+    window.parent.formData = null;
+    //console.log(formData);
+    form.val('data-form', formData);
+  }
+  form.on('submit(front-submit)', function(data) {
+    var uri = projectName + '/userAgreement/saveOrUpdate';
+    $.ajax({
+      type: 'post',
+      url: uri,
+      data: data.field,
+      success: function(resp) {
+        if (resp.code > -1) {
+          layer.msg(resp.msg, { icon: 1, time: 1000 });
+          if (parent.layui.table) {
+            parent.layui.table.reload('data-table');
+          }
+          layer_close();
+        } else {
+          layer.msg(resp.msg, { icon: 0, time: 1000 });
+          console.log(resp.msg);
+          return false;
+        }
+      },
+      error: function(resp) {
+        //console.log(resp.responseText);
+        layer.alert(resp.responseText, { icon: 2 });
+      }
+    })
+    //防止表单刷新
+    return false;
+  });
+});
+
+function layer_close() {
+  var index = parent.layer.getFrameIndex(window.name);
+  parent.layer.close(index);
+}
+</script>
+
+</html>
