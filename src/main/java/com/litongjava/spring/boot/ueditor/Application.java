@@ -6,6 +6,7 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -27,10 +28,10 @@ public class Application {
 
   private static void info(long start, ApplicationContext ctx) {
     // 获取tomcat server 属性
-    ServerProperties sp = ctx.getBean(ServerProperties.class);
-    // 获取启动地址和端口
-    int port = sp.getPort();
-    String contextPath = sp.getContextPath();
+    TomcatServletWebServerFactory tomcatServletWebServerFactory = (TomcatServletWebServerFactory) ctx
+      .getBean("tomcatServletWebServerFactory");
+    int port = tomcatServletWebServerFactory.getPort();
+    String contextPath = tomcatServletWebServerFactory.getContextPath();
     Environment environment = ctx.getBean(Environment.class);
     String projectName = environment.getProperty("spring.application.name");
     if (StringUtils.isEmpty(projectName))

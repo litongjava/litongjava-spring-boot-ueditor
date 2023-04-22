@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.8.RELEASE</version>
+    <version>2.5.6</version>
   </parent>
   <packaging>jar</packaging>
   <properties>
@@ -21,20 +21,14 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <!--排除tomcat依赖 -->
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
+    <!--
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-undertow</artifactId>
     </dependency>
-
+    -->
 
 
     <dependency>
@@ -74,6 +68,7 @@
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
+      <version>20180813</version><!--注意：20160810版本不支持JSONArray-->
     </dependency>
     <dependency>
       <groupId>com.baidu.ueditor</groupId>
@@ -122,6 +117,11 @@
           <artifactId>jave-all-deps</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
 
     <dependency>

@@ -4,7 +4,8 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-6level%logger{0}.%M:%L - %msg%n"
 server:
   port: 11025
-  context-path: /litongjava-spring-boot-ueditor
+  servlet:
+    context-path: /litongjava-spring-boot-ueditor
 spring:
   application:
     name: litongjava-spring-boot-ueditor
@@ -13,13 +14,14 @@ spring:
   devtools:
     restart:
       trigger-file: trigger.txt
-  resources:
-    static-locations: classpath:/litongjava-spring-boot-ueditor/
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/litongjava_spring_boot_ueditor?userSSL=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT
+    url: jdbc:mysql://192.168.3.9/litongjava_spring_boot_ueditor?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT&useSSL=false
     username: root
-    password: 
+    password: robot_123456#
+  web:
+    resources:
+      static-locations: classpath:/litongjava-spring-boot-ueditor
 mybatis-plus:
   global-config:
     banner: false # 是否显示mybatis-plus的图标
