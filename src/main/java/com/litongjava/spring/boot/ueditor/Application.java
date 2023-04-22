@@ -1,5 +1,6 @@
 package com.litongjava.spring.boot.ueditor;
 
+import com.litongjava.utils.ip.IpUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
-import com.litong.utils.ip.IPUtils;
 import com.litongjava.spring.boot.ueditor.servlet.UEditorServlet;
 
 @SpringBootApplication
@@ -35,11 +35,10 @@ public class Application {
     String projectName = environment.getProperty("spring.application.name");
     if (StringUtils.isEmpty(projectName))
       projectName = "file-server";
-    String thisUrl = IPUtils.getThisUrl(port, contextPath);
+    IpUtils.getThisUrl(port, contextPath);
     long end = System.currentTimeMillis();
     // 输出地址和端口
     System.out.println(projectName + "完成启动共使用了:" + (end - start) + "ms");
-    System.out.println(thisUrl);
   }
 
   @Bean
