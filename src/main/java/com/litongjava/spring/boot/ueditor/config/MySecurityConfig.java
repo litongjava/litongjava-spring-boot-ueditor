@@ -12,12 +12,27 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+
+    //开启登录.登录成功后调整的界面
+    http.formLogin()
+      .defaultSuccessUrl("/index.html", true) //设置默认重定向URL为/dashboard
+      .and()
+      .logout()
+      .permitAll();
+    //关闭frameOptions
     http.headers().frameOptions().disable();
-    http.formLogin() // 定义当需要用户登录时候，转到的登录页面。
-      .and().authorizeRequests() // 定义哪些URL需要被保护、哪些不需要被保护
-      .anyRequest() // 任何请求,登录后可以访问
-      .authenticated();
+    //设置不进行验证的接口
+    http
+      .authorizeRequests()
+      .antMatchers("/html/**").permitAll()
+      .anyRequest().authenticated(); // 所有其他请求需要身份验证
+
+    // 关闭csrf防护
+    http.csrf().disable();
+//    http.cors().disable();
+
   }
+
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();

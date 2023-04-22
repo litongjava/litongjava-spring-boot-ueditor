@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("ueditor-1.4")
 @Slf4j
+@PreAuthorize("isAuthenticated()")
 public class UeditorController {
   @Autowired
   private ResourcesLocationComponent rlc;

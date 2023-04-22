@@ -1,6 +1,7 @@
 package com.litongjava.spring.boot.ueditor.controller;
 
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import com.litongjava.spring.boot.ueditor.service.UserAgreementService;
  */
 @RestController
 @RequestMapping("/userAgreement")
+@PreAuthorize("isAuthenticated()")
 public class UserAgreementController extends MpCurdController<UserAgreementService, UserAgreement> {
 
 }
