@@ -22,9 +22,12 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     //关闭frameOptions
     http.headers().frameOptions().disable();
     //设置不进行验证的接口
+    String[] permitUrl ={"/html/**","/ueditor-1.4/**","/jquery/**","/js/**","/userAgreement/listColumn",
+      "/article/listColumn"};
+
     http
       .authorizeRequests()
-      .antMatchers("/html/**").permitAll()
+      .antMatchers(permitUrl).permitAll()
       .anyRequest().authenticated(); // 所有其他请求需要身份验证
 
     // 关闭csrf防护
