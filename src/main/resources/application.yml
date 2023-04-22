@@ -27,3 +27,8 @@ mybatis-plus:
     banner: false # 是否显示mybatis-plus的图标
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+project:
+  user:
+    name: admin
+    password: robot_123456
